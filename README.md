@@ -1,2 +1,2 @@
 # simple-calculator
-simple calculator created with python 
+This is a simple calculator app with gui created with python and tkinter 
