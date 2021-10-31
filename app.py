@@ -1,5 +1,6 @@
 import tkinter as tk
 import re
+from typing import Type
 
 root = tk.Tk()
 root.title('Simple Calculator')
@@ -23,32 +24,48 @@ display.grid(row=0, column=0, columnspan=4, ipady=15, padx=6, pady=10, sticky='n
 def create_btn(btn_input, row_num, col_num, col_span = 1):
     btn = tk.Button(root, text=str(btn_input), font=('Arial', 16), command=lambda: btn_click(btn_input))
     btn.grid(row=row_num, column=col_num, columnspan=col_span, sticky='nesw')
+    
+#---func for Error Handaling
+def err_handle():
+    update_display('Invalid Syntax! Press C')
+    
 #---func for updating values on display    
 def update_display(current, btn_value = ''):
     display.delete(0, tk.END)
     display.insert(0, str(current) + str(btn_value))
+    
 #---func for calculating finale result and updating it on display    
-def calc_and_display_result(val):
-    result = eval(val)
-    update_display(result)
+def calc_and_display_result(val, btn_input = ''):
+    try:
+        result = eval(val)
+        update_display(result, btn_input)
+    except SyntaxError as err:
+        print(err)  #delete after ---------------------------
+        err_handle()
+    except TypeError as err:
+        print(err)  #delete after ----------------------
+        err_handle()
+        
 #---func for calculating percentage
 def calc_percentage(current):
-    nums = re.split(r'(\+|-|/|\*)', current)
-    perc =''
-    for val in nums:
-        if val.__contains__('%'):
-            perc = val.split('%')
-    perc_val = (int(perc[0]) / 100) * int(nums[0])
-    nums.pop()
-    nums.append(str(perc_val))
-    return ''.join(nums)
-#---    
-def check_display(curr, condi, btn_value): #!!!!!!!!!!!!!---opraviť celé pomienenie, tak aby nebolo možné pridať dalšie znamienko,
-    if condi not in curr and curr != '' and curr != btn_value: # ak medzi nimi nieje číslo
-        update_display(curr, btn_value)                        #---pridať podmienku aby po sebe nenasledovali rozličné znamienka napr(+-)
+    try:
+        nums = re.split(r'(\+|-|/|\*)', current)
+        perc =''
+        for val in nums:
+            if val.__contains__('%'):
+                perc = val.split('%')
+        perc_val = (int(perc[0]) / 100) * int(nums[0])    
+        nums.pop()
+        nums.append(str(perc_val))
+        return ''.join(nums)
+    except ValueError as err:
+        print(err) #delete after ---------------------------
+        err_handle()
+
 #---func for handeling button clicks                                                                
 def btn_click(btn_input):                                     
     current = display.get()
+    current_isnot_empty = current != ''
     #---backspace button 
     if btn_input == '<=':
         current = current[:-1]
@@ -58,34 +75,50 @@ def btn_click(btn_input):
         display.delete(0, tk.END)
     #---percentage button
     elif btn_input == '%':
-        check_display(current,'%',btn_input)   
+        if current_isnot_empty:
+            update_display(current, btn_input)   
     #---divide button
     elif btn_input == '/':   #---------------odstániť desatinné číslo ak nieje potrebne---------------------
-        check_display(current,'/',btn_input)
+        if current_isnot_empty:
+            update_display(current, btn_input)
     #---multiply button
     elif btn_input == '*':
-        check_display(current,'*',btn_input)
-    #---subtraction button
-    elif btn_input == '-':
-        check_display(current,'-',btn_input)
+        if current_isnot_empty:
+            update_display(current, btn_input)
     #---addition buttons
     elif btn_input == '+':
-        check_display(current,'+',btn_input)
+        if current_isnot_empty:
+            update_display(current, btn_input)
     #---float button
     elif btn_input == '.':
-        check_display(current,'.',btn_input)
+        if current_isnot_empty:  
+            update_display(current, btn_input)
+    #---subtraction button
+    elif btn_input == '-':
+        update_display(current, btn_input)
     #---equal button
     elif btn_input == '=':  #---------------pridať aktiváciu Enterom---------------------
-        if current != '':   #---------------Syntax Error---------------------
+        if current != '':  
             #---calculating percentage
             if '%' in current:
                 new_current = calc_percentage(current)
                 calc_and_display_result(new_current)
             else:
                 calc_and_display_result(current)
-    #---number buttons
+    #---number buttons            
     else:
         update_display(current, btn_input)
+    #--- calculates current and adds operator 
+    current_contains = current.__contains__('+' or '-' or '*' or '/')
+    if current_contains:
+        if btn_input == '+':
+            calc_and_display_result(current, btn_input)
+        elif btn_input == '-':
+            calc_and_display_result(current, btn_input)
+        elif btn_input == '*':
+            calc_and_display_result(current, btn_input)
+        elif btn_input == '/':
+            calc_and_display_result(current, btn_input)
 
 #---Buttons
 #---1st row
