@@ -1,6 +1,5 @@
 import tkinter as tk
 import re
-from typing import Type
 
 root = tk.Tk()
 root.title('Simple Calculator')
@@ -127,33 +126,35 @@ def btn_click(btn_input):
         elif btn_input == '/':
             calc_and_display_result(current, btn_input)
 
-#---Buttons
-#---1st row
-btn_backspace = create_btn('<=',1,0)
-btn_clear = create_btn('C',1,1)
-btn_percentage = create_btn('%',1,2)
-btn_divide = create_btn('/',1,3)
-#---2nd row
-btn_7 = create_btn(7,2,0)
-btn_8 = create_btn(8,2,1)
-btn_9 = create_btn(9,2,2)
-btn_multiply = create_btn('*',2,3)
-#---3rd row
-btn_4 = create_btn(4,3,0)
-btn_5 = create_btn(5,3,1)
-btn_6 = create_btn(6,3,2)
-btn_subtraction = create_btn('-',3,3)
-#---4th row
-btn_1 = create_btn(1,4,0)
-btn_2 = create_btn(2,4,1)
-btn_3 = create_btn(3,4,2)
-btn_addition = create_btn('+',4,3)
-#---5th row
-btn_0 = create_btn(0,5,0,2)
-btn_float = create_btn('.',5,2)
-btn_equal = create_btn('=',5,3)
-# btn_equal = btn = tk.Button(root, text='=', font=('Arial', 16), command=lambda: btn_click('='))
-# btn_equal.tk.bind('<Return>', print('ok'))
-# btn_equal.grid(row=5, column=3, sticky='nesw')
+#---Buttons---
+#---backspace
+create_btn('<=',1,0)
+#---clear
+create_btn('C',1,1)
+#---percentage
+create_btn('%',1,2)
+#---divide
+create_btn('/',1,3)
+#---multiply
+create_btn('*',2,3)
+#---subtracion
+create_btn('-',3,3)
+#---addition
+create_btn('+',4,3)
+#---float
+create_btn('.',5,2)
+#---equal
+create_btn('=',5,3)
+#---numbers
+#---zero
+create_btn(0,5,0,2)
+#---nums from 1 to 9
+btn_val = 1
+for row in range(4,1,-1):
+    for col in range(0,3):
+        create_btn(btn_val, row, col)
+        btn_val += 1
+    
+  
 
 root.mainloop()
