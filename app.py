@@ -27,7 +27,7 @@ def create_btn(btn_input, row_num, col_num, col_span = 1):
     
 #---func for Error Handaling
 def err_handle():
-    update_display('Invalid Syntax! Press C')
+    update_display('0')
     
 #---func for updating values on display    
 def update_display(current, btn_value = ''):
@@ -37,29 +37,35 @@ def update_display(current, btn_value = ''):
 #---func for calculating finale result and updating it on display    
 def calc_and_display_result(val, btn_input = ''):
     try:
-        result = eval(val)
-        update_display(result, btn_input)
+        result = str(eval(val))
+        #---checking if result is a whole number writen as float. If yes, display only whole number 
+        if '.' in result and len(result) == 3 and result[-1] == '0':
+            whole_num = result[0] 
+            update_display(whole_num, btn_input)
+        else:
+            update_display(result,btn_input)
     except SyntaxError as err:
-        print(err)  #delete after ---------------------------
+        print(err)  #delete after maybe ---------------------------
         err_handle()
     except TypeError as err:
-        print(err)  #delete after ----------------------
+        print(err)  #delete after maybe ----------------------
         err_handle()
         
 #---func for calculating percentage
 def calc_percentage(current):
     try:
         nums = re.split(r'(\+|-|/|\*)', current)
-        perc =''
+        perc = ''
+        #---finding value with percentage
         for val in nums:
-            if val.__contains__('%'):
+            if '%' in val:
                 perc = val.split('%')
         perc_val = (int(perc[0]) / 100) * int(nums[0])    
         nums.pop()
         nums.append(str(perc_val))
         return ''.join(nums)
     except ValueError as err:
-        print(err) #delete after ---------------------------
+        print(err) #delete after maybe ---------------------------
         err_handle()
 
 #---func for handeling button clicks                                                                
@@ -78,7 +84,7 @@ def btn_click(btn_input):
         if current_isnot_empty:
             update_display(current, btn_input)   
     #---divide button
-    elif btn_input == '/':   #---------------odstániť desatinné číslo ak nieje potrebne---------------------
+    elif btn_input == '/':  
         if current_isnot_empty:
             update_display(current, btn_input)
     #---multiply button
@@ -108,9 +114,10 @@ def btn_click(btn_input):
     #---number buttons            
     else:
         update_display(current, btn_input)
+
+    #---if users adds more than one operation 
     #--- calculates current and adds operator 
-    current_contains = current.__contains__('+' or '-' or '*' or '/')
-    if current_contains:
+    if '+' or '-' or '*' or '/' in current:
         if btn_input == '+':
             calc_and_display_result(current, btn_input)
         elif btn_input == '-':
