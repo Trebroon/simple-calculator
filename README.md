@@ -6,6 +6,16 @@
 
 ---
 
+## Table of Contents
+
+- [Description](#description)
+- [Installation](#installation)
+- [How To Use](#how-to-use)
+- [Room For Improvement](#room-for-improvement)
+- [Contact](#contact)
+
+---
+
 ## Description
 
 Simple calculator application created with Python and it's build in libary for graphical user interfaces Tkinter.
@@ -33,7 +43,7 @@ Then write this line into terminal line:
 
 --- 
 
-## How to use
+## How To Use
 
 After you have successfully installed Python and cloned app to your computer, all you need to do is type:
 
@@ -54,6 +64,8 @@ to your terminal and app should start.
 ## Contact
 
 Created by [Norbert Leipold](http://norbertleipold.com/) - feel free to contact me
+
+[back to top](#simple-calculator)
 
 
 
