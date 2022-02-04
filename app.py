@@ -44,10 +44,10 @@ def calc_and_display_result(val, btn_input = ''):
         else:
             update_display(result,btn_input)
     except SyntaxError as err:
-        print(err)  #delete after maybe ---------------------------
+        print(err) 
         err_handle()
     except TypeError as err:
-        print(err)  #delete after maybe ----------------------
+        print(err)  
         err_handle()
         
 #---func for calculating percentage
@@ -64,7 +64,7 @@ def calc_percentage(current):
         nums.append(str(perc_val))
         return ''.join(nums)
     except ValueError as err:
-        print(err) #delete after maybe ---------------------------
+        print(err)
         err_handle()
 
 #---func for handeling button clicks                                                                
@@ -102,7 +102,7 @@ def btn_click(btn_input):
     elif btn_input == '-':
         update_display(current, btn_input)
     #---equal button
-    elif btn_input == '=':  #---------------pridať aktiváciu Enterom---------------------
+    elif btn_input == '=' or display.bind('<Return>'):  #---------------pridať aktiváciu Enterom---------------------
         if current != '':  
             #---calculating percentage
             if '%' in current:
